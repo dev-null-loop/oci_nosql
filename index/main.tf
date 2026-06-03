@@ -1,8 +1,12 @@
 resource "oci_nosql_index" "this" {
-  keys {
-    column_name     = var.keys.column_name
-    json_field_type = var.keys.json_field_type
-    json_path       = var.keys.json_path
+  dynamic "keys" {
+    for_each = var.keys
+    iterator = ke
+    content {
+      column_name     = ke.value.column_name
+      json_field_type = ke.value.json_field_type
+      json_path       = ke.value.json_path
+    }
   }
   name             = var.name
   table_name_or_id = var.table_name_or_id
